@@ -8,7 +8,7 @@ The API is pretty straightforward:
 
 * Create the instance of the `RSSReader`.
 * Call one of its `readFrom` methods which accept either `String` or `URL` parameter.
-* Get the `RSSChannel` which contains channel-related fields along with the list of `RSSItem`s. Both classes implement `Parcelable` interface, s you can pass them wherever you like.
+* Get the `RSSChannel` which contains channel-related fields along with the list of `RSSItem`s. Both classes implement `Parcelable` interfaces, so you can pass them wherever you like.
 * Step 4 is omitted.
 
 Here goes the code:
