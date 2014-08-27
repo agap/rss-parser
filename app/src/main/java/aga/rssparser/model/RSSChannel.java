@@ -93,7 +93,7 @@ public class RSSChannel implements Parcelable {
         return mItems;
     }
 
-    public static class Builder implements FieldTypeAware {
+    public static class Builder extends FieldTypeAware {
         private static final Set<String> TEXT_TAGS = new HashSet<>();
 
         static {

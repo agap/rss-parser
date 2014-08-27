@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import aga.rssparser.model.Enclosure;
 import aga.rssparser.model.FieldTypeAware;
 import aga.rssparser.model.RSSChannel;
 import aga.rssparser.model.RSSItem;
@@ -126,6 +127,14 @@ public class RSSReader {
                 if (m != null) {
                     m.invoke(builder, value);
                 }
+            } else if (builder.isEnclosure(tagName)) {
+                final Enclosure.Builder enclosureBuilder = parseEnclosure(parser);
+
+                final Method m = builder.getClass().getMethod("setEnclosure", Enclosure.class);
+
+                if (m != null) {
+                    m.invoke(builder, new Enclosure(enclosureBuilder));
+                }
             } else {
                 skip(parser);
             }
@@ -134,6 +143,17 @@ public class RSSReader {
         } catch (IOException | XmlPullParserException e) {
             throw new RSSReadException("Issue during the rss parsing", e);
         }
+    }
+
+    private Enclosure.Builder parseEnclosure(final XmlPullParser parser) throws IOException, XmlPullParserException {
+        final Enclosure.Builder enclosureBuilder = new Enclosure.Builder();
+
+        enclosureBuilder.setUrl(parser.getAttributeValue(null, "url"));
+        enclosureBuilder.setType(parser.getAttributeValue(null, "type"));
+        enclosureBuilder.setLength(Integer.parseInt(parser.getAttributeValue(null, "length")));
+        parser.nextTag();
+
+        return enclosureBuilder;
     }
 
     private void skip(final XmlPullParser parser) throws XmlPullParserException, IOException {

@@ -25,6 +25,8 @@ public class RSSItem implements Parcelable {
 
     private Date mPubDate;
 
+    private Enclosure mEnclosure;
+
     public static final Creator<RSSItem> CREATOR = new Creator<RSSItem>() {
         @Override
         public RSSItem createFromParcel(Parcel source) {
@@ -43,7 +45,8 @@ public class RSSItem implements Parcelable {
         mDescription = builder.getDescription();
         mAuthor = builder.getAuthor();
         mComments = builder.getComments();
-        mPubDate = builder.mPubDate;
+        mPubDate = builder.getPubDate();
+        mEnclosure = builder.getEnclosure();
     }
 
     private RSSItem(final Parcel source) {
@@ -53,6 +56,7 @@ public class RSSItem implements Parcelable {
         mAuthor = source.readString();
         mComments = source.readString();
         mPubDate = new Date(source.readLong());
+        mEnclosure = source.readParcelable(Enclosure.class.getClassLoader());
     }
 
     @Override
@@ -68,6 +72,7 @@ public class RSSItem implements Parcelable {
         dest.writeString(mAuthor);
         dest.writeString(mComments);
         dest.writeLong(mPubDate != null ? mPubDate.getTime() : 0L);
+        dest.writeParcelable(mEnclosure, 0);
     }
 
     public String getTitle() {
@@ -94,7 +99,11 @@ public class RSSItem implements Parcelable {
         return mPubDate;
     }
 
-    public static class Builder implements FieldTypeAware {
+    public Enclosure getEnclosure() {
+        return mEnclosure;
+    }
+
+    public static class Builder extends FieldTypeAware {
         private static final Set<String> TEXT_TAGS = new HashSet<>();
 
         static {
@@ -113,6 +122,8 @@ public class RSSItem implements Parcelable {
         private String mComments;
 
         private Date mPubDate;
+
+        private Enclosure mEnclosure;
 
         public String getTitle() {
             return mTitle;
@@ -160,6 +171,14 @@ public class RSSItem implements Parcelable {
 
         public void setPubDate(String pubDate) {
             mPubDate = Utils.toDate(pubDate);
+        }
+
+        public Enclosure getEnclosure() {
+            return mEnclosure;
+        }
+
+        public void setEnclosure(Enclosure enclosure) {
+            mEnclosure = enclosure;
         }
 
         @Override
