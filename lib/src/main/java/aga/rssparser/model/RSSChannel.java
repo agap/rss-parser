@@ -93,6 +93,37 @@ public class RSSChannel implements Parcelable {
         return mItems;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || ((Object) this).getClass() != o.getClass()) return false;
+
+        RSSChannel channel = (RSSChannel) o;
+
+        if (!mDescription.equals(channel.mDescription)) return false;
+        if (!mItems.equals(channel.mItems)) return false;
+        if (mLastBuildDate != null ? !mLastBuildDate.equals(channel.mLastBuildDate) : channel.mLastBuildDate != null)
+            return false;
+        if (!mLink.equals(channel.mLink)) return false;
+        if (mPubDate != null ? !mPubDate.equals(channel.mPubDate) : channel.mPubDate != null)
+            return false;
+        //noinspection RedundantIfStatement
+        if (!mTitle.equals(channel.mTitle)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mTitle.hashCode();
+        result = 31 * result + mLink.hashCode();
+        result = 31 * result + mDescription.hashCode();
+        result = 31 * result + (mPubDate != null ? mPubDate.hashCode() : 0);
+        result = 31 * result + (mLastBuildDate != null ? mLastBuildDate.hashCode() : 0);
+        result = 31 * result + (mItems.hashCode());
+        return result;
+    }
+
     public static class Builder extends FieldTypeAware {
         private static final Set<String> TEXT_TAGS = new HashSet<>();
 

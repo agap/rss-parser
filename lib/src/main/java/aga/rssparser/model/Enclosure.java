@@ -61,6 +61,24 @@ public class Enclosure implements Parcelable {
         return mLength;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || ((Object) this).getClass() != o.getClass()) return false;
+
+        final Enclosure enclosure = (Enclosure) o;
+
+        return mLength == enclosure.mLength && mType.equals(enclosure.mType) && mUrl.equals(enclosure.mUrl);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mUrl.hashCode();
+        result = 31 * result + mType.hashCode();
+        result = 31 * result + mLength;
+        return result;
+    }
+
     public static class Builder extends FieldTypeAware {
         public String mUrl;
         public String mType;

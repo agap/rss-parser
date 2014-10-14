@@ -103,6 +103,40 @@ public class RSSItem implements Parcelable {
         return mEnclosure;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || ((Object) this).getClass() != o.getClass()) return false;
+
+        final RSSItem item = (RSSItem) o;
+
+        if (mAuthor != null ? !mAuthor.equals(item.mAuthor) : item.mAuthor != null) return false;
+        if (mComments != null ? !mComments.equals(item.mComments) : item.mComments != null)
+            return false;
+        if (!mDescription.equals(item.mDescription)) return false;
+        if (mEnclosure != null ? !mEnclosure.equals(item.mEnclosure) : item.mEnclosure != null)
+            return false;
+        if (mLink != null ? !mLink.equals(item.mLink) : item.mLink != null) return false;
+        if (mPubDate != null ? !mPubDate.equals(item.mPubDate) : item.mPubDate != null)
+            return false;
+        //noinspection RedundantIfStatement
+        if (!mTitle.equals(item.mTitle)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mTitle.hashCode();
+        result = 31 * result + (mLink != null ? mLink.hashCode() : 0);
+        result = 31 * result + mDescription.hashCode();
+        result = 31 * result + (mAuthor != null ? mAuthor.hashCode() : 0);
+        result = 31 * result + (mComments != null ? mComments.hashCode() : 0);
+        result = 31 * result + (mPubDate != null ? mPubDate.hashCode() : 0);
+        result = 31 * result + (mEnclosure != null ? mEnclosure.hashCode() : 0);
+        return result;
+    }
+
     public static class Builder extends FieldTypeAware {
         private static final Set<String> TEXT_TAGS = new HashSet<>();
 
