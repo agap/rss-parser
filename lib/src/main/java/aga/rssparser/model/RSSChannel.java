@@ -89,6 +89,14 @@ public class RSSChannel implements Parcelable {
         return mDescription;
     }
 
+    public Date getPubDate() {
+        return mPubDate;
+    }
+
+    public Date getLastBuildDate() {
+        return mLastBuildDate;
+    }
+
     public List<RSSItem> getItems() {
         return mItems;
     }
