@@ -31,13 +31,20 @@ public class RSSReader {
         return readFrom(new URL(url));
     }
 
+
     public RSSChannel readFrom(final URL url) throws RSSReadException {
-        InputStream is;
+        try {
+            return readFrom(url.openStream());
+        } catch (IOException e) {
+            throw new RSSReadException("Exception during the read from remote resource", e);
+        }
+    }
+
+    public RSSChannel readFrom(InputStream input) throws RSSReadException {
         BufferedInputStream bis = null;
 
         try {
-            is = url.openStream();
-            bis = new BufferedInputStream(is);
+            bis = new BufferedInputStream(input);
 
             final XmlPullParser parser = Xml.newPullParser();
             parser.setInput(bis, null);
@@ -56,7 +63,7 @@ public class RSSReader {
                 } catch (IOException e) {
                     Log.e(
                         RSSReader.class.getCanonicalName(),
-                        String.format("can't close input stream of url %s : %s", url.toString(), e.toString())
+                        String.format("can't close input stream: %s", e.toString())
                     );
                 }
             }
